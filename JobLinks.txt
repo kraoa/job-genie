@@ -1,0 +1,88 @@
+# Sample Job Listings for Resume Tailoring
+
+Senior Fullstack Software Engineer, Node/Angular (Remote)
+Company: Focus Tech Solutions
+Location: Remote (NYC-based company)
+
+About:
+Focus Tech Solutions is a New York City-based startup taking personal productivity to the next level with our array of applications and research into secure neural implant technologies. You'll be joining a globally distributed team working on cutting-edge development with the goal of making humans more efficient and more effective.
+
+Responsibilities:
+- Collaborate with stakeholders while leading a team and deploying code releases frequently without downtime.
+- Assist in architecting our current and future large-scale web and mobile applications.
+- Work with the machine learning team to implement insights and tests.
+- Continue building and scaling our applications while ensuring high availability and high reliability connections with our neural implant hardware.
+
+Requirements:
+- 3+ years of experience using Node.js and Angular, especially with server-side rendering.
+- Significant experience maintaining and creating public APIs.
+- Knowledge of CI/CD systems and zero downtime deployment techniques.
+- Strong leadership skills, problem-solving skills, analytical skills, and communication skills.
+
+Nice-to-Have:
+- 2+ years of experience with ExpressJS-based frameworks.
+- Some experience with Ruby, Ruby on Rails, GraphQL, and/or MongoDB.
+- Great interpersonal skills and intercultural communication abilities.
+- Past experience working in a fully remote environment.
+- Ability to function in and lead a Scrum-based Agile environment with frequent code releases.
+
+---
+
+Python Backend Developer
+Company: DataSystems Inc.
+Location: San Francisco, CA (Hybrid)
+
+About:
+DataSystems Inc. is looking for a Python Backend Developer to help build and maintain our data processing systems. You will work with large datasets and implement efficient algorithms.
+
+Responsibilities:
+- Develop and maintain backend services using Python
+- Design and implement database schemas
+- Optimize code for performance and scalability
+- Implement data processing pipelines
+- Write automated tests and documentation
+
+Requirements:
+- 3+ years of experience with Python development
+- Strong knowledge of SQL and database design
+- Experience with Flask or Django frameworks
+- Understanding of RESTful API design
+- Knowledge of data structures and algorithms
+- Experience with unit testing and test-driven development
+
+Nice-to-have:
+- Experience with AWS services (Lambda, S3, DynamoDB)
+- Knowledge of Docker and containerization
+- Experience with message queues (RabbitMQ, Kafka)
+- Familiarity with machine learning libraries (NumPy, Pandas, scikit-learn)
+
+---
+
+Java Backend Engineer
+Company: FinTech Solutions
+Location: New York, NY (On-site)
+
+About:
+FinTech Solutions is seeking a Java Backend Engineer to join our engineering team. You will be responsible for developing and maintaining our financial transaction processing systems.
+
+Responsibilities:
+- Design and develop high-performance, high-availability applications
+- Implement RESTful APIs and microservices
+- Optimize application performance
+- Ensure data security and compliance with financial regulations
+- Collaborate with frontend developers and product managers
+
+Requirements:
+- 4+ years of experience with Java development
+- Experience with Spring Boot and Spring Framework
+- Knowledge of relational databases and SQL
+- Understanding of microservices architecture
+- Experience with version control systems (Git)
+- Knowledge of concurrency and multithreading
+
+Nice-to-have:
+- Experience with Kotlin
+- Knowledge of message brokers (Kafka, RabbitMQ)
+- Experience with NoSQL databases
+- Understanding of financial domain knowledge
+- Experience with CI/CD tools (Jenkins, GitLab CI)
