@@ -1,0 +1,151 @@
+Source URL: https://job-boards.greenhouse.io/scaleai/jobs/4514173005
+
+Job Application for Applied AI Engineer, Enterprise GenAI at Scale AI
+Back to jobs
+Applied AI Engineer, Enterprise GenAI
+San Francisco, CA; New York, NY
+Apply
+AI is becoming vitally important in every function of our society. At Scale, our mission is to accelerate the development of AI applications. For 8 years, Scale has been the leading AI data foundry, helping fuel the most exciting advancements in AI, including: generative AI, defense applications, and autonomous vehicles. With our recent Series F round, we’re accelerating the usage of frontier data and models by building complex agents for enterprises around the world through our Scale Generative Platform (SGP).
+The SGP ML team works on the front lines of this AI revolution. We interface directly with clients to build cutting edge products using the arsenal of proprietary research and resources developed at Scale. As an Applied AI Engineer, you’ll work with clients to create ML solutions to satisfy their business needs. Your work will range from building next-generation AI cybersecurity firewalls to creating transformative AI experiences in journalism to applying foundation genomic models making predictions about life-saving drug proteins. Daily data-driven experiments will provide key insights around model strengths and inefficiencies which you’ll use to improve your product’s performance. If you are excited about shaping the future of the modern AI movement, we would love to hear from you!
+You will:
+Own, plan, and optimize the AI behind our Enterprise customer’s deepest technical problems
+Leverage SGP to build the most advanced AI agents across the industry including multimodal functionality, tool-calling, and more
+Have experience gathering business requirements and translating them into technical solutions
+Meet regularly with customer teams onsite and virtually, collaborating cross-functionally with all teams responsible for their data and ML needs
+Push production code in multiple development environments, writing and debugging code directly in both our customer’s and Scale’s codebases.
+Be able and willing to multi-task and learn new technologies quickly
+Ideally you'd have:
+A love for solving deeply complex technical problems with ambiguity using state of the art research and AI to accomplish your client’s business goals
+Strong engineering background: a Bachelor’s degree in Computer Science, Mathematics, or another quantitative field or equivalent strong engineering background.
+Deep familiarity with a data-driven approach when iterating on machine learning models and how changes in datasets can influence model results
+Experience working with cloud technology stack (eg. AWS or GCP) and developing machine learning models in a cloud environment
+Proficiency in Python to write, test and debug code using common libraries (ie numpy, pandas)
+Nice to haves:
+Strong knowledge of software engineering best practices
+Have built applications taking advantage of Generative AI in real, production use cases
+Familiarity with state of the art LLMs and their strengths/weaknesses
+Compensation packages at Scale for eligible roles include base salary, equity, and benefits. The range displayed on each job posting reflects the minimum and maximum target for new hire salaries for the position, determined by work location and additional factors, including job-related skills, experience, interview performance, and relevant education or training. Scale employees in eligible roles are also granted equity based compensation, subject to Board of Director approval. Your recruiter can share more about the specific salary range for your preferred location during the hiring process, and confirm whether the hired role will be eligible for equity grant. You’ll also receive benefits including, but not limited to: Comprehensive health, dental and vision coverage, retirement benefits, a learning and development stipend, and generous PTO. Additionally, this role may be eligible for additional benefits such as a commuter stipend.
+Please reference the job posting's subtitle for where this position will be located. For pay transparency purposes, the base salary range for this full-time position in the locations of San Francisco, New York, Seattle is:
+$168,200
+-
+$248,500
+USD
+PLEASE NOTE:
+Our policy requires a 90-day waiting period before reconsidering candidates for the same role. This allows us to ensure a fair and thorough evaluation of all applicants.
+About Us:
+At Scale, our mission is to develop reliable AI systems for the world's most important decisions. Our products provide the high-quality data and full-stack technologies that power the world's leading models, and help enterprises and governments build, deploy, and oversee AI applications that deliver real impact. We work closely with industry leaders like Meta, Cisco, DLP Piper, Mayo Clinic, Time Inc., the Government of Qatar, and U.S. government agencies including the Army and Air Force. We are expanding our team to accelerate the development of AI applications.
+We believe that everyone should be able to bring their whole selves to work, which is why we are proud to be an inclusive and equal opportunity workplace. We are committed to equal employment opportunity regardless of race, color, ancestry, religion, sex, national origin, sexual orientation, age, citizenship, marital status, disability status, gender identity or Veteran status.
+We are committed to working with and providing reasonable accommodations to applicants with physical and mental disabilities. If you need assistance and/or a reasonable accommodation in the application or recruiting process due to a disability, please contact us at accommodations@scale.com. Please see the United States Department of Labor's
+Know Your Rights poster
+for additional information.
+We comply with the United States Department of Labor's
+Pay Transparency provision
+.
+PLEASE NOTE:
+We collect, retain and use personal data for our professional business purposes, including notifying you of job opportunities that may be of interest and sharing with our affiliates. We limit the personal data we collect to that which we believe is appropriate and necessary to manage applicants’ needs, provide our services, and comply with applicable laws. Any information we collect in connection with your application will be treated in accordance with our internal policies and programs designed to protect personal data. Please see our
+privacy policy
+for additional information.
+Create a Job Alert
+Interested in building your career at Scale AI? Get future opportunities sent straight to your email.
+Create alert
+Apply for this job
+*
+indicates a required field
+Autofill with Greenhouse
+First Name
+*
+Last Name
+*
+Email
+*
+Phone
+Resume/CV
+*
+Attach
+Attach
+Dropbox
+Google Drive
+Enter manually
+Enter manually
+Accepted file types: pdf, doc, docx, txt, rtf
+Cover Letter
+Attach
+Attach
+Dropbox
+Google Drive
+Enter manually
+Enter manually
+Accepted file types: pdf, doc, docx, txt, rtf
+LinkedIn Profile
+Website
+Are you legally authorized to work in the country where the job is located?
+*
+Select...
+Will you now or in the future require company sponsorship to retain or extend your work authorization in the country where the job is located?
+*
+Select...
+Voluntary Self-Identification
+For government reporting purposes, we ask candidates to respond to the below self-identification survey.
+Completion of the form is entirely voluntary. Whatever your decision, it will not be considered in the hiring
+process or thereafter. Any information that you do provide will be recorded and maintained in a
+confidential file.
+As set forth in Scale AI’s Equal Employment Opportunity policy,
+we do not discriminate on the basis of any protected group status under any applicable law.
+Gender
+Select...
+Are you Hispanic/Latino?
+Select...
+Race & Ethnicity Definitions
+If you believe you belong to any of the categories of protected veterans listed below, please indicate by making the appropriate selection.
+  As a government contractor subject to the Vietnam Era Veterans Readjustment Assistance Act (VEVRAA), we request this information in order to measure
+  the effectiveness of the outreach and positive recruitment efforts we undertake pursuant to VEVRAA. Classification of protected categories
+  is as follows:
+A "disabled veteran" is one of the following: a veteran of the U.S. military, ground, naval or air service who is entitled to compensation (or who but for the receipt of military retired pay would be entitled to compensation) under laws administered by the Secretary of Veterans Affairs; or a person who was discharged or released from active duty because of a service-connected disability.
+A "recently separated veteran" means any veteran during the three-year period beginning on the date of such veteran's discharge or release from active duty in the U.S. military, ground, naval, or air service.
+An "active duty wartime or campaign badge veteran" means a veteran who served on active duty in the U.S. military, ground, naval or air service during a war, or in a campaign or expedition for which a campaign badge has been authorized under the laws administered by the Department of Defense.
+An "Armed forces service medal veteran" means a veteran who, while serving on active duty in the U.S. military, ground, naval or air service, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.
+Veteran Status
+Select...
+Voluntary Self-Identification of Disability
+Form CC-305
+Page 1 of 1
+OMB Control Number 1250-0005
+Expires 04/30/2026
+Why are you being asked to complete this form?
+We are a federal contractor or subcontractor. The law requires us to provide equal employment opportunity to qualified people with disabilities. We have a goal of having at least 7% of our workers as people with disabilities. The law says we must measure our progress towards this goal. To do this, we must ask applicants and employees if they have a disability or have ever had one. People can become disabled, so we need to ask this question at least every five years.
+Completing this form is voluntary, and we hope that you will choose to do so. Your answer is confidential. No one who makes hiring decisions will see it. Your decision to complete the form and your answer will not harm you in any way. If you want to learn more about the law or this form, visit the U.S. Department of Labor’s Office of Federal Contract Compliance Programs (OFCCP) website at
+www.dol.gov/ofccp
+.
+How do you know if you have a disability?
+A disability is a condition that substantially limits one or more of your “major life activities.” If you have or have ever had such a condition, you are a person with a disability.
+Disabilities include, but are not limited to:
+Alcohol or other substance use disorder (not currently using drugs illegally)
+Autoimmune disorder, for example, lupus, fibromyalgia, rheumatoid arthritis, HIV/AIDS
+Blind or low vision
+Cancer (past or present)
+Cardiovascular or heart disease
+Celiac disease
+Cerebral palsy
+Deaf or serious difficulty hearing
+Diabetes
+Disfigurement, for example, disfigurement caused by burns, wounds, accidents, or congenital disorders
+Epilepsy or other seizure disorder
+Gastrointestinal disorders, for example, Crohn's Disease, irritable bowel syndrome
+Intellectual or developmental disability
+Mental health conditions, for example, depression, bipolar disorder, anxiety disorder, schizophrenia, PTSD
+Missing limbs or partially missing limbs
+Mobility impairment, benefiting from the use of a wheelchair, scooter, walker, leg brace(s) and/or other supports
+Nervous system condition, for example, migraine headaches, Parkinson’s disease, multiple sclerosis (MS)
+Neurodivergence, for example, attention-deficit/hyperactivity disorder (ADHD), autism spectrum disorder, dyslexia, dyspraxia, other learning disabilities
+Partial or complete paralysis (any cause)
+Pulmonary or respiratory conditions, for example, tuberculosis, asthma, emphysema
+Short stature (dwarfism)
+Traumatic brain injury
+Disability Status
+Select...
+PUBLIC BURDEN STATEMENT: According to the Paperwork Reduction Act of 1995 no persons are required to respond to a collection of information unless such collection displays a valid OMB control number. This survey should take about 5 minutes to complete.
+Submit application
+Powered by
+Greenhouse
+Read our
+Privacy Policy

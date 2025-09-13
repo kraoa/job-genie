@@ -161,15 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Prioritize sections with more keyword matches
         relevantSections = prioritizeSections(relevantSections, jobKeywords);
         
-        // Add a header explaining this is a demo
-        const header = "DEMO TAILORED RESUME\n" +
-                      "(This is a simplified demo without actual GPT-4 integration)\n\n" +
-                      "In a real implementation, this would use GPT-4 to intelligently:\n" +
-                      "- Extract relevant experience based on job requirements\n" +
-                      "- Highlight matching skills and qualifications\n" +
-                      "- Reword achievements to match job description language\n" +
-                      "- Format the resume professionally\n\n" +
-                      "SIMPLIFIED RESULT BASED ON KEYWORD MATCHING:\n\n";
+        // Start with an empty header
+        const header = "";
         
         // Combine relevant sections
         return header + relevantSections.join('\n\n');
