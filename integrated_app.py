@@ -6,6 +6,7 @@ from pathlib import Path
 from flask import Flask, request, jsonify, send_file, render_template, redirect
 from werkzeug.utils import secure_filename
 from md_to_pdf import convert_markdown_to_pdf
+from utils.latex_style_pdf_generator import LaTeXStylePDFGenerator
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
@@ -85,36 +86,32 @@ def download_file(filename):
 
 @app.route('/convert-resume', methods=['POST'])
 def convert_resume():
-    """Convert tailored resume to PDF."""
+    """Convert tailored resume to PDF using LaTeX-style formatting."""
     try:
-        # Get the markdown content from the request
+        # Get the resume data from the request
         data = request.json
-        if not data or 'markdown' not in data:
-            return jsonify({'error': 'No markdown content provided'}), 400
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
         
-        markdown_content = data['markdown']
+        # Extract resume data
+        tailored_resume = data.get('resume_data', {})
+        job_title = data.get('job_title', 'Software Engineer')
+        company_name = data.get('company_name', 'Company')
         
-        # Create a temporary markdown file
-        timestamp = str(int(time.time() * 1000))
-        md_filename = f"{timestamp}-tailored_resume.md"
-        md_path = UPLOADS_DIR / md_filename
+        if not tailored_resume:
+            return jsonify({'error': 'No resume data provided'}), 400
         
-        with open(md_path, 'w', encoding='utf-8') as f:
-            f.write(markdown_content)
+        # Generate PDF using LaTeX-style generator
+        pdf_generator = LaTeXStylePDFGenerator(str(DOWNLOADS_DIR))
+        pdf_path = pdf_generator.generate_pdf(tailored_resume, job_title, company_name)
         
-        # Convert to PDF
-        pdf_filename = f"{timestamp}-tailored_resume.pdf"
-        pdf_path = DOWNLOADS_DIR / pdf_filename
-        
-        convert_markdown_to_pdf(str(md_path), str(pdf_path))
-        
-        # Clean up markdown file
-        md_path.unlink()
+        # Extract filename from path
+        pdf_filename = os.path.basename(pdf_path)
         
         return jsonify({
             'success': True,
             'filename': pdf_filename,
-            'message': 'Resume converted successfully'
+            'message': 'Resume converted successfully with LaTeX-style formatting'
         })
         
     except Exception as e:

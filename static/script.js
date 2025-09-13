@@ -235,6 +235,147 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
+     * Parse resume content into structured data for PDF generation
+     */
+    function parseResumeContent(content) {
+        const lines = content.split('\n').map(line => line.trim()).filter(line => line);
+        
+        const resumeData = {
+            name: '',
+            email: '',
+            phone: '',
+            location: '',
+            linkedin: '',
+            github: '',
+            summary: '',
+            skills: [],
+            experience: [],
+            education: [],
+            projects: [],
+            awards: []
+        };
+        
+        let currentSection = '';
+        let currentJob = null;
+        let currentEdu = null;
+        
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const lowerLine = line.toLowerCase();
+            
+            // Skip demo headers
+            if (lowerLine.includes('demo tailored resume') || 
+                lowerLine.includes('simplified result') ||
+                lowerLine.includes('in a real implementation')) {
+                continue;
+            }
+            
+            // Extract contact information from first few lines
+            if (i < 3 && !resumeData.name) {
+                if (line.includes('@')) {
+                    resumeData.email = line;
+                } else if (line.includes('(') && line.includes(')')) {
+                    resumeData.phone = line;
+                } else if (line.includes('linkedin.com')) {
+                    resumeData.linkedin = line;
+                } else if (line.includes('github.com')) {
+                    resumeData.github = line;
+                } else if (!resumeData.name && !line.includes('|') && !line.includes('@')) {
+                    resumeData.name = line;
+                }
+            }
+            
+            // Detect sections
+            if (lowerLine.includes('summary') || lowerLine.includes('profile') || lowerLine.includes('objective')) {
+                currentSection = 'summary';
+            } else if (lowerLine.includes('skills') || lowerLine.includes('technical skills')) {
+                currentSection = 'skills';
+            } else if (lowerLine.includes('experience') || lowerLine.includes('work experience')) {
+                currentSection = 'experience';
+            } else if (lowerLine.includes('education') || lowerLine.includes('academic')) {
+                currentSection = 'education';
+            } else if (lowerLine.includes('projects') || lowerLine.includes('project experience')) {
+                currentSection = 'projects';
+            } else if (lowerLine.includes('awards') || lowerLine.includes('achievements')) {
+                currentSection = 'awards';
+            } else {
+                // Process content based on current section
+                if (currentSection === 'summary' && line && !line.includes('SUMMARY')) {
+                    resumeData.summary += line + ' ';
+                } else if (currentSection === 'skills' && line && !line.includes('SKILLS')) {
+                    if (line.startsWith('-')) {
+                        resumeData.skills.push(line.substring(1).trim());
+                    } else {
+                        resumeData.skills.push(line);
+                    }
+                } else if (currentSection === 'experience' && line && !line.includes('EXPERIENCE')) {
+                    // Check if this is a job title (usually in caps or title case)
+                    if (line === line.toUpperCase() && line.length > 5 && !line.includes('|') && !line.includes('-')) {
+                        if (currentJob) {
+                            resumeData.experience.push(currentJob);
+                        }
+                        currentJob = { title: line, company: '', duration: '', location: '', description: [] };
+                    } else if (currentJob && line.includes('|')) {
+                        // Company and location line
+                        const parts = line.split('|');
+                        currentJob.company = parts[0].trim();
+                        if (parts.length > 1) {
+                            currentJob.location = parts[1].trim();
+                        }
+                        if (parts.length > 2) {
+                            currentJob.duration = parts[2].trim();
+                        }
+                    } else if (currentJob && line.startsWith('-')) {
+                        // Job description bullet point
+                        currentJob.description.push(line.substring(1).trim());
+                    }
+                } else if (currentSection === 'education' && line && !line.includes('EDUCATION')) {
+                    if (line === line.toUpperCase() && line.length > 5 && !line.includes('|')) {
+                        if (currentEdu) {
+                            resumeData.education.push(currentEdu);
+                        }
+                        currentEdu = { degree: line, institution: '', year: '', location: '' };
+                    } else if (currentEdu && line.includes('|')) {
+                        const parts = line.split('|');
+                        currentEdu.institution = parts[0].trim();
+                        if (parts.length > 1) {
+                            currentEdu.location = parts[1].trim();
+                        }
+                        if (parts.length > 2) {
+                            currentEdu.year = parts[2].trim();
+                        }
+                    }
+                } else if (currentSection === 'projects' && line && !line.includes('PROJECTS')) {
+                    if (line.startsWith('-')) {
+                        resumeData.projects.push(line.substring(1).trim());
+                    } else {
+                        resumeData.projects.push(line);
+                    }
+                } else if (currentSection === 'awards' && line && !line.includes('AWARDS')) {
+                    if (line.startsWith('-')) {
+                        resumeData.awards.push(line.substring(1).trim());
+                    } else {
+                        resumeData.awards.push(line);
+                    }
+                }
+            }
+        }
+        
+        // Add the last job and education entries
+        if (currentJob) {
+            resumeData.experience.push(currentJob);
+        }
+        if (currentEdu) {
+            resumeData.education.push(currentEdu);
+        }
+        
+        // Clean up summary
+        resumeData.summary = resumeData.summary.trim();
+        
+        return resumeData;
+    }
+
+    /**
      * Download tailored resume as PDF file using server-side conversion
      */
     function downloadTailoredResumeAsPdf() {
@@ -244,8 +385,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // First convert to markdown
-        const markdownContent = convertToMarkdown(content);
+        // Parse the resume content into structured data
+        const resumeData = parseResumeContent(content);
+        
+        // Get job title and company from the form
+        const jobTitle = document.getElementById('job-title').value || 'Software Engineer';
+        const companyName = document.getElementById('company-name').value || 'Company';
         
         // Show loading indicator
         const originalText = resultContent.innerHTML;
@@ -257,7 +402,11 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ markdown: markdownContent })
+            body: JSON.stringify({ 
+                resume_data: resumeData,
+                job_title: jobTitle,
+                company_name: companyName
+            })
         })
         .then(response => response.json())
         .then(data => {
