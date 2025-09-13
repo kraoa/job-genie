@@ -1,0 +1,31 @@
+Senior Software Engineer - Full Stack
+
+Job Description:
+We are looking for a Senior Software Engineer with strong full-stack development experience to join our growing team. The ideal candidate will have expertise in building scalable web applications using modern technologies.
+
+Responsibilities:
+- Design, develop, and maintain web applications using React, Node.js, and Express
+- Work with databases including MongoDB and PostgreSQL
+- Implement cloud-based solutions using AWS services
+- Collaborate with cross-functional teams to define and implement new features
+- Write clean, maintainable, and efficient code
+- Participate in code reviews and mentor junior developers
+- Troubleshoot and debug applications
+
+Requirements:
+- 5+ years of experience in software development
+- Strong proficiency in JavaScript/TypeScript
+- Experience with React and Node.js
+- Knowledge of RESTful APIs and GraphQL
+- Experience with MongoDB and PostgreSQL
+- Familiarity with AWS services (Lambda, S3, EC2)
+- Experience with Docker and Kubernetes
+- Understanding of CI/CD pipelines
+- Excellent problem-solving and communication skills
+
+Preferred Qualifications:
+- Experience with microservices architecture
+- Knowledge of serverless frameworks
+- Experience with TensorFlow or PyTorch
+- Familiarity with Agile development methodologies
+- Open source contributions

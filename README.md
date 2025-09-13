@@ -18,7 +18,8 @@ Job Genie is an application that takes a master resume (4+ pages) and creates a 
 - **Smart Tailoring**: Match your qualifications with job requirements to create a customized resume.
 - **PDF Generation**: Generate a professional 1-2 page PDF resume.
 - **User-Friendly Interface**: Simple and intuitive interface for easy use.
-- **Skills Gap Analysis**: Identify missing skills and suggest relevant online certifications.
+- **Skills Gap Analysis**: Identify missing skills from your resume compared to job requirements.
+- **Certification Recommendations**: Get suggestions for online certifications to acquire missing skills.
 
 ## Installation
 
@@ -41,6 +42,8 @@ Job Genie is an application that takes a master resume (4+ pages) and creates a 
 
 ## Usage
 
+### GUI Application
+
 1. Run the application:
    ```
    python app.py
@@ -52,7 +55,25 @@ Job Genie is an application that takes a master resume (4+ pages) and creates a 
 
 4. Click "Generate Tailored Resume" to create your customized resume.
 
-5. Save the generated PDF to your desired location.
+5. Navigate to the "Skills Analysis" tab to see missing skills and certification recommendations.
+
+6. Save the generated PDF to your desired location.
+
+### Command Line Interface
+
+You can also use the command-line interface for skills analysis:
+
+```
+python skills_cli.py path/to/resume.pdf --job_text "Job description text"
+```
+
+Or provide a job description file:
+
+```
+python skills_cli.py path/to/resume.pdf --job_file path/to/job_description.txt
+```
+
+This will analyze your resume against the job description, identify missing skills, and suggest relevant certifications.
 
 ## How It Works
 
