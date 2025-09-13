@@ -6,6 +6,10 @@ from pathlib import Path
 from flask import Flask, request, jsonify, send_file, render_template, redirect
 from werkzeug.utils import secure_filename
 from md_to_pdf import convert_markdown_to_pdf
+# Add imports for URL scraping
+import requests
+from urllib.parse import urlparse
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
@@ -18,10 +22,77 @@ PUBLIC_DIR = Path('public')
 for directory in [UPLOADS_DIR, DOWNLOADS_DIR, PUBLIC_DIR]:
     directory.mkdir(exist_ok=True)
 
+def scrape_job_description(url):
+    """Scrape job description from a URL and return the text content."""
+    try:
+        # Add a small delay to avoid overwhelming the server
+        time.sleep(1)
+        
+        # Make the request
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=30)
+        response.raise_for_status()  # Raise an exception for 4XX/5XX responses
+        
+        # Extract text content using BeautifulSoup
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Extract text from the page (removing script and style elements)
+        for script in soup(["script", "style"]):
+            script.extract()
+        text = soup.get_text(separator='\n', strip=True)
+        
+        return {
+            'success': True,
+            'text': text,
+            'url': url
+        }
+    except requests.exceptions.RequestException as e:
+        return {
+            'success': False,
+            'error': f"Error downloading {url}: {e}"
+        }
+    except Exception as e:
+        return {
+            'success': False,
+            'error': f"Unexpected error processing {url}: {e}"
+        }
+
 @app.route('/')
 def index():
     """Serve the main HTML interface."""
     return render_template('index.html')
+
+@app.route('/scrape-job', methods=['POST'])
+def scrape_job():
+    """Scrape job description from a URL."""
+    try:
+        data = request.json
+        if not data or 'url' not in data:
+            return jsonify({'error': 'No URL provided'}), 400
+        
+        url = data['url'].strip()
+        if not url:
+            return jsonify({'error': 'Empty URL provided'}), 400
+        
+        # Validate URL format
+        if not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+        
+        result = scrape_job_description(url)
+        
+        if result['success']:
+            return jsonify({
+                'success': True,
+                'text': result['text'],
+                'url': result['url']
+            })
+        else:
+            return jsonify({'error': result['error']}), 400
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/convert', methods=['POST'])
 def convert_file():
