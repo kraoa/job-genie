@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobGenie - Resume Tailoring Tool</title>
-    <!-- Change this line -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    
-    <!-- And this line at the bottom -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <!-- Add jsPDF library for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -23,33 +19,68 @@
         </header>
 
         <main>
-            <div class="upload-section">
-                <div class="file-upload">
-                    <h2>Master Resume</h2>
-                    <p>Upload your comprehensive resume (5-10 pages)</p>
-                    <input type="file" id="resume-upload" accept=".txt" />
-                    <div class="file-preview" id="resume-preview"></div>
+            <!-- Bulk URL Scraping Section -->
+            <div class="bulk-scraping-section">
+                <h2>Bulk URL Scraping</h2>
+                <p>Upload a .txt file containing URLs (one per line) to scrape job descriptions in bulk</p>
+                <div class="upload-box" onclick="document.getElementById('urls-upload').click()">
+                    <div class="upload-content">
+                        <p>📋 Click to upload URLs file</p>
+                        <button type="button" class="choose-file-btn">Choose File</button>
+                    </div>
                 </div>
-
-                <div class="file-upload">
-                    <h2>Job Description</h2>
-                    <p>Upload the job description you're applying for</p>
-                    <input type="file" id="job-upload" accept=".txt" />
-                    <div class="file-preview" id="job-preview"></div>
+                <input type="file" id="urls-upload" accept=".txt" style="display: none;">
+                <div id="urls-preview" class="file-preview" style="display: none;"></div>
+                <button id="scrape-urls-btn" disabled>Scrape URLs</button>
+                
+                <div id="scraping-results" class="scraping-results" style="display: none;">
+                    <h3>Scraping Results</h3>
+                    <div id="results-summary" class="results-summary"></div>
+                    <div id="results-details" class="results-details"></div>
                 </div>
-
-                <button id="generate-btn" disabled>Generate Tailored Resume</button>
             </div>
 
-            <div class="result-section" id="result-section">
-                <h2>Your Tailored Resume</h2>
-                <div class="result-content" id="result-content">
-                    <p class="placeholder-text">Your tailored resume will appear here after processing.</p>
+            <div class="main-content">
+                <div class="upload-section">
+                    <div class="file-upload">
+                        <h2>Upload Resume</h2>
+                        <p>Upload your resume in PDF or TXT format</p>
+                        <div class="upload-box" onclick="document.getElementById('resume-upload').click()">
+                            <div class="upload-content">
+                                <p>📄 Click to upload your resume</p>
+                                <button type="button" class="choose-file-btn">Choose File</button>
+                            </div>
+                        </div>
+                        <input type="file" id="resume-upload" accept=".pdf,.txt" style="display: none;">
+                        <div id="resume-preview" class="file-preview" style="display: none;"></div>
+                    </div>
+
+                    <div class="file-upload">
+                        <h2>Upload Job Description</h2>
+                        <p>Upload the job description in PDF or TXT format</p>
+                        <div class="upload-box" onclick="document.getElementById('job-upload').click()">
+                            <div class="upload-content">
+                                <p>💼 Click to upload job description</p>
+                                <button type="button" class="choose-file-btn">Choose File</button>
+                            </div>
+                        </div>
+                        <input type="file" id="job-upload" accept=".pdf,.txt" style="display: none;">
+                        <div id="job-preview" class="file-preview" style="display: none;"></div>
+                    </div>
+
+                    <button id="generate-btn" disabled>Generate Tailored Resume</button>
                 </div>
-                <div class="download-options">
-                    <button id="download-txt-btn" disabled>Download as Text</button>
-                    <button id="download-pdf-btn" disabled>Download as PDF</button>
-                    <button id="download-md-btn" disabled>Download as Markdown</button>
+
+                <div class="result-section">
+                    <h2>Generated Resume</h2>
+                    <div id="result-content" class="result-content">
+                        <div class="placeholder-text">Your tailored resume will appear here...</div>
+                    </div>
+                    <div class="download-options">
+                        <button id="download-txt-btn" disabled>Download TXT</button>
+                        <button id="download-pdf-btn" disabled>Download PDF</button>
+                        <button id="download-md-btn" disabled>Download MD</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -59,6 +90,6 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

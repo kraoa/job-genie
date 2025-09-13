@@ -5,23 +5,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const resumePreview = document.getElementById('resume-preview');
     const jobPreview = document.getElementById('job-preview');
     const generateBtn = document.getElementById('generate-btn');
+    const resultSection = document.getElementById('result-section');
     const resultContent = document.getElementById('result-content');
     const downloadTxtBtn = document.getElementById('download-txt-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
     const downloadMdBtn = document.getElementById('download-md-btn');
+    
+    // Bulk URL scraping elements
+    const urlsUpload = document.getElementById('urls-upload');
+    const urlsPreview = document.getElementById('urls-preview');
+    const scrapeUrlsBtn = document.getElementById('scrape-urls-btn');
+    const scrapingResults = document.getElementById('scraping-results');
+    const resultsSummary = document.getElementById('results-summary');
+    const resultsDetails = document.getElementById('results-details');
 
     // File contents
     let resumeContent = '';
     let jobContent = '';
+    let urlsFileContent = '';
 
     // Handle file uploads
-    resumeUpload.addEventListener('change', (event) => {
-        handleFileUpload(event, resumePreview, 'resume');
-    });
+    if (resumeUpload) {
+        resumeUpload.addEventListener('change', (event) => {
+            handleFileUpload(event, resumePreview, 'resume');
+        });
+    }
 
-    jobUpload.addEventListener('change', (event) => {
-        handleFileUpload(event, jobPreview, 'job');
-    });
+    if (jobUpload) {
+        jobUpload.addEventListener('change', (event) => {
+            handleFileUpload(event, jobPreview, 'job');
+        });
+    }
+    
+    if (urlsUpload) {
+        urlsUpload.addEventListener('change', (event) => {
+            handleUrlsFileUpload(event);
+        });
+    }
 
     // Generate button click
     generateBtn.addEventListener('click', generateTailoredResume);
@@ -30,17 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
     downloadTxtBtn.addEventListener('click', downloadTailoredResumeAsTxt);
     downloadPdfBtn.addEventListener('click', downloadTailoredResumeAsPdf);
     downloadMdBtn.addEventListener('click', downloadTailoredResumeAsMarkdown);
+    
+    // Bulk scraping button click
+    if (scrapeUrlsBtn) {
+        scrapeUrlsBtn.addEventListener('click', scrapeBulkUrls);
+    }
 
     /**
      * Handle file upload and preview
      */
     function handleFileUpload(event, previewElement, fileType) {
         const file = event.target.files[0];
-        if (!file) return;
+        if (!file) {
+            return;
+        }
+
+        // Show file name in preview immediately
+        previewElement.innerHTML = `<p style="color: blue;">Loading file: ${file.name}...</p>`;
 
         // Check if file is a text file
         if (file.type !== 'text/plain' && !file.name.endsWith('.txt')) {
-            alert('Please upload a text (.txt) file');
+            previewElement.innerHTML = `<p style="color: red;">Error: Please upload a text (.txt) file</p>`;
             event.target.value = '';
             return;
         }
@@ -48,7 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
-            previewElement.textContent = content;
+            
+            // Show preview with file info
+            previewElement.innerHTML = `
+                <p style="color: green;">✓ File loaded: ${file.name}</p>
+                <p style="font-size: 12px; color: #666;">Size: ${content.length} characters</p>
+                <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 12px;">
+                    ${content.substring(0, 500)}${content.length > 500 ? '...' : ''}
+                </div>
+            `;
             
             // Store content
             if (fileType === 'resume') {
@@ -58,14 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Enable generate button if both files are uploaded
-            if (resumeContent && jobContent) {
+            if (resumeContent && jobContent && generateBtn) {
                 generateBtn.disabled = false;
+                generateBtn.style.backgroundColor = '#007bff';
+                generateBtn.style.color = 'white';
             }
         };
 
         reader.onerror = () => {
-            alert('Error reading file');
-            previewElement.textContent = '';
+            previewElement.innerHTML = `<p style="color: red;">Error reading file: ${file.name}</p>`;
         };
 
         reader.readAsText(file);
@@ -350,5 +389,159 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         return markdownContent;
+    }
+
+    /**
+     * Handle URLs file upload
+     */
+    function handleUrlsFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+
+        // Show file name in preview immediately
+        urlsPreview.innerHTML = `<p style="color: blue;">Loading file: ${file.name}...</p>`;
+
+        // Check if file is a text or CSV file
+        if (!file.name.toLowerCase().endsWith('.txt') && !file.name.toLowerCase().endsWith('.csv')) {
+            urlsPreview.innerHTML = `<p style="color: red;">Error: Please upload a .txt or .csv file</p>`;
+            event.target.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            
+            // Parse URLs from content
+            const urls = content.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0);
+            
+            if (urls.length === 0) {
+                urlsPreview.innerHTML = `<p style="color: red;">Error: No valid URLs found in file</p>`;
+                event.target.value = '';
+                return;
+            }
+            
+            // Show preview with file info
+            urlsPreview.innerHTML = `
+                <p style="color: green;">✓ File loaded: ${file.name}</p>
+                <p style="font-size: 12px; color: #666;">Found ${urls.length} URLs</p>
+                <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 12px;">
+                    ${urls.slice(0, 10).join('\n')}${urls.length > 10 ? '\n... and ' + (urls.length - 10) + ' more' : ''}
+                </div>
+            `;
+            
+            // Store content and enable scrape button
+            urlsFileContent = content;
+            scrapeUrlsBtn.disabled = false;
+            scrapeUrlsBtn.style.backgroundColor = '#28a745';
+            scrapeUrlsBtn.style.color = 'white';
+        };
+
+        reader.onerror = () => {
+            urlsPreview.innerHTML = `<p style="color: red;">Error reading file: ${file.name}</p>`;
+        };
+
+        reader.readAsText(file);
+    }
+
+    /**
+     * Scrape URLs from uploaded file
+     */
+    function scrapeBulkUrls() {
+        if (!urlsFileContent) {
+            alert('Please upload a URLs file first');
+            return;
+        }
+
+        // Show loading state
+        scrapeUrlsBtn.disabled = true;
+        scrapeUrlsBtn.textContent = 'Scraping URLs...';
+        scrapingResults.style.display = 'block';
+        resultsSummary.innerHTML = '<p style="color: blue;">Processing URLs... Please wait.</p>';
+        resultsDetails.innerHTML = '';
+
+        // Create FormData for file upload
+        const formData = new FormData();
+        const blob = new Blob([urlsFileContent], { type: 'text/plain' });
+        formData.append('urls_file', blob, 'urls.txt');
+
+        // Send request to scrape-urls-file endpoint
+        fetch('/scrape-urls-file', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayScrapingResults(data);
+            } else {
+                resultsSummary.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+            }
+        })
+        .catch(error => {
+            resultsSummary.innerHTML = `<p style="color: red;">Network error: ${error.message}</p>`;
+        })
+        .finally(() => {
+            // Reset button state
+            scrapeUrlsBtn.disabled = false;
+            scrapeUrlsBtn.textContent = 'Scrape Job URLs';
+        });
+    }
+
+    /**
+     * Display scraping results
+     */
+    function displayScrapingResults(data) {
+        const { summary, results, message } = data;
+        
+        // Display summary
+        resultsSummary.innerHTML = `
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                <h4 style="margin: 0 0 10px 0; color: #28a745;">✓ Scraping Complete</h4>
+                <p style="margin: 5px 0;"><strong>Total URLs:</strong> ${summary.total}</p>
+                <p style="margin: 5px 0; color: #28a745;"><strong>Successful:</strong> ${summary.success}</p>
+                <p style="margin: 5px 0; color: #dc3545;"><strong>Failed:</strong> ${summary.failed}</p>
+                <p style="margin: 5px 0; font-size: 12px; color: #666;">${message}</p>
+            </div>
+        `;
+        
+        // Display detailed results
+        let detailsHtml = '<div style="max-height: 400px; overflow-y: auto;">';
+        
+        results.forEach((result, index) => {
+            const statusColor = result.success ? '#28a745' : '#dc3545';
+            const statusIcon = result.success ? '✓' : '✗';
+            
+            detailsHtml += `
+                <div style="border: 1px solid #dee2e6; margin-bottom: 10px; padding: 10px; border-radius: 5px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                        <span style="color: ${statusColor}; font-weight: bold; margin-right: 10px;">${statusIcon}</span>
+                        <span style="font-size: 12px; color: #666; word-break: break-all;">${result.url}</span>
+                    </div>
+            `;
+            
+            if (result.success) {
+                const textPreview = result.text.substring(0, 200) + (result.text.length > 200 ? '...' : '');
+                detailsHtml += `
+                    <p style="margin: 5px 0; font-size: 12px; color: #28a745;">Saved as: ${result.filename}</p>
+                    <div style="background: #f8f9fa; padding: 8px; font-size: 11px; color: #666; border-radius: 3px;">
+                        ${textPreview.replace(/\n/g, '<br>')}
+                    </div>
+                `;
+            } else {
+                detailsHtml += `
+                    <p style="margin: 5px 0; font-size: 12px; color: #dc3545;">Error: ${result.error}</p>
+                `;
+            }
+            
+            detailsHtml += '</div>';
+        });
+        
+        detailsHtml += '</div>';
+        resultsDetails.innerHTML = detailsHtml;
     }
 });

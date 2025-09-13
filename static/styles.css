@@ -31,18 +31,24 @@ header h1 {
 }
 
 main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
 }
 
 @media (max-width: 768px) {
-    main {
+    .main-content {
         grid-template-columns: 1fr;
     }
 }
 
-.upload-section, .result-section {
+.upload-section, .result-section, .bulk-scraping-section {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -73,6 +79,45 @@ input[type="file"] {
     border: 1px dashed #cbd5e1;
     border-radius: 4px;
     background-color: #f8fafc;
+}
+
+.upload-box {
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.upload-box:hover {
+    border-color: #2563eb;
+    background-color: #eff6ff;
+}
+
+.upload-content p {
+    margin-bottom: 15px;
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+.choose-file-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    width: auto;
+    transition: background-color 0.3s;
+}
+
+.choose-file-btn:hover {
+    background-color: #1d4ed8;
 }
 
 .file-preview {
@@ -163,6 +208,53 @@ button:disabled {
 
 #download-md-btn:hover:not(:disabled) {
     background-color: #6d28d9;
+}
+
+/* Bulk scraping specific styles */
+.bulk-scraping-section {
+    margin-bottom: 30px;
+}
+
+.bulk-scraping-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #1e40af;
+}
+
+.bulk-scraping-section p {
+    margin-bottom: 15px;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+#scrape-urls-btn {
+    background-color: #28a745;
+    margin-bottom: 20px;
+}
+
+#scrape-urls-btn:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+.scraping-results {
+    margin-top: 20px;
+}
+
+.scraping-results h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #1e40af;
+}
+
+.results-summary {
+    margin-bottom: 15px;
+}
+
+.results-details {
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background-color: #f8fafc;
+    padding: 15px;
 }
 
 footer {

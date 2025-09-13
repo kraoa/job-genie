@@ -59,10 +59,98 @@ def scrape_job_description(url):
             'error': f"Unexpected error processing {url}: {e}"
         }
 
+def read_urls_from_file(file_path):
+    """Read URLs from a text file, one URL per line."""
+    try:
+        with open(file_path, 'r') as file:
+            # Strip whitespace and filter out empty lines
+            urls = [line.strip() for line in file if line.strip()]
+        return urls
+    except FileNotFoundError:
+        raise Exception(f"Error: File '{file_path}' not found.")
+    except Exception as e:
+        raise Exception(f"Error reading file: {e}")
+
+def batch_download_content(urls, output_dir="downloaded_jobs"):
+    """Download content from multiple URLs and return results."""
+    results = []
+    success_count = 0
+    failure_count = 0
+    
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    for i, url in enumerate(urls, 1):
+        print(f"Processing {i}/{len(urls)}: {url}")
+        
+        # Validate URL format
+        if not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+        
+        result = scrape_job_description(url)
+        
+        if result['success']:
+            # Create a filename based on the URL
+            parsed_url = urlparse(url)
+            domain = parsed_url.netloc
+            path = parsed_url.path.replace('/', '_')
+            if not path:
+                path = '_index'
+            filename = f"{domain}{path}.txt"
+            
+            # Save the content to a file
+            output_path = os.path.join(output_dir, filename)
+            try:
+                with open(output_path, 'w', encoding='utf-8') as file:
+                    file.write(f"Source URL: {url}\n\n")
+                    file.write(result['text'])
+                
+                success_count += 1
+                results.append({
+                    'url': url,
+                    'success': True,
+                    'filename': filename,
+                    'text': result['text']
+                })
+            except Exception as e:
+                failure_count += 1
+                results.append({
+                    'url': url,
+                    'success': False,
+                    'error': f"Error saving file: {e}"
+                })
+        else:
+            failure_count += 1
+            results.append({
+                'url': url,
+                'success': False,
+                'error': result['error']
+            })
+    
+    return {
+        'results': results,
+        'summary': {
+            'total': len(urls),
+            'success': success_count,
+            'failed': failure_count,
+            'output_dir': os.path.abspath(output_dir)
+        }
+    }
+
 @app.route('/')
 def index():
     """Serve the main HTML interface."""
     return render_template('index.html')
+
+@app.route('/test')
+def test():
+    """Serve a test HTML page."""
+    return send_file('test.html')
+
+@app.route('/standalone')
+def standalone():
+    """Serve a standalone test HTML page."""
+    return send_file('standalone_test.html')
 
 @app.route('/scrape-job', methods=['POST'])
 def scrape_job():
@@ -91,6 +179,94 @@ def scrape_job():
         else:
             return jsonify({'error': result['error']}), 400
             
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/scrape-multiple-jobs', methods=['POST'])
+def scrape_multiple_jobs():
+    """Scrape job descriptions from multiple URLs."""
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        urls = []
+        
+        # Handle different input formats
+        if 'urls' in data:
+            # Direct URL list
+            urls = data['urls']
+        elif 'url_text' in data:
+            # URLs as text (one per line)
+            url_text = data['url_text'].strip()
+            if url_text:
+                urls = [line.strip() for line in url_text.split('\n') if line.strip()]
+        else:
+            return jsonify({'error': 'No URLs provided. Use "urls" array or "url_text" string.'}), 400
+        
+        if not urls:
+            return jsonify({'error': 'No valid URLs found'}), 400
+        
+        # Process URLs in batch
+        output_dir = DOWNLOADS_DIR / 'scraped_jobs'
+        result = batch_download_content(urls, str(output_dir))
+        
+        return jsonify({
+            'success': True,
+            'results': result['results'],
+            'summary': result['summary'],
+            'message': f"Processed {result['summary']['total']} URLs. {result['summary']['success']} successful, {result['summary']['failed']} failed."
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/scrape-urls-file', methods=['POST'])
+def scrape_urls_file():
+    """Scrape job descriptions from URLs in an uploaded file."""
+    try:
+        # Check if file was uploaded
+        if 'urls_file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+        
+        file = request.files['urls_file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+        
+        # Validate file type
+        if not file.filename.lower().endswith(('.txt', '.csv')):
+            return jsonify({'error': 'Invalid file type. Please upload a .txt or .csv file.'}), 400
+        
+        # Secure the filename and save temporarily
+        filename = secure_filename(file.filename)
+        timestamp = str(int(time.time() * 1000))
+        safe_filename = f"{timestamp}-{filename}"
+        temp_path = UPLOADS_DIR / safe_filename
+        file.save(temp_path)
+        
+        try:
+            # Read URLs from the uploaded file
+            urls = read_urls_from_file(str(temp_path))
+            
+            if not urls:
+                return jsonify({'error': 'No valid URLs found in the file'}), 400
+            
+            # Process URLs in batch
+            output_dir = DOWNLOADS_DIR / 'scraped_jobs'
+            result = batch_download_content(urls, str(output_dir))
+            
+            return jsonify({
+                'success': True,
+                'results': result['results'],
+                'summary': result['summary'],
+                'message': f"Processed {result['summary']['total']} URLs from file. {result['summary']['success']} successful, {result['summary']['failed']} failed."
+            })
+            
+        finally:
+            # Clean up uploaded file
+            if temp_path.exists():
+                temp_path.unlink()
+        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

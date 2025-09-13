@@ -1,88 +1,64 @@
-# Job Genie
+# Job Genie - URL Content Scraper
 
-Job Genie is an application that takes a master resume (4+ pages) and creates a new tailored resume according to the skills and qualifications of a job application link. The application analyzes both your comprehensive resume and the job description to generate a targeted 1-2 page PDF resume that highlights your most relevant qualifications.
-
-## Original Requirements
-
-1. Master Resume of 5 pages (Details of everything)
-2. Compare that with the job description and condense it to 1-2 pages based on the main key requirements
-3. Customizable template
-4. Suggest missing skills and based on that suggest online certifications
-5. Auto PDF export
-6. AI interview agent
+A Python script to download text content from a list of URLs. This tool is useful for collecting job descriptions from multiple sources for further analysis.
 
 ## Features
 
-- **Resume Parsing**: Extract information from your master resume including education, skills, projects, work experience, internships, and awards.
-- **Job Description Analysis**: Parse job descriptions to identify key requirements, skills, and qualifications.
-- **Smart Tailoring**: Match your qualifications with job requirements to create a customized resume.
-- **PDF Generation**: Generate a professional 1-2 page PDF resume.
-- **User-Friendly Interface**: Simple and intuitive interface for easy use.
-- **Skills Gap Analysis**: Identify missing skills from your resume compared to job requirements.
-- **Certification Recommendations**: Get suggestions for online certifications to acquire missing skills.
+- Reads URLs from a text file (one URL per line)
+- Downloads the text content from each URL
+- Cleans the content by removing scripts and style elements
+- Saves each job description to a separate text file
+- Provides a summary of successful and failed downloads
+
+## Requirements
+
+- Python 3.6 or higher
+- Required Python packages:
+  - requests
+  - beautifulsoup4
 
 ## Installation
 
-1. Clone this repository:
-   ```
-   git clone https://github.com/yourusername/job-genie.git
-   cd job-genie
-   ```
+1. Clone this repository or download the script
+2. Install the required packages:
 
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-3. Download required NLTK data and spaCy models:
-   ```python
-   python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('wordnet')"
-   python -m spacy download en_core_web_sm
-   ```
+```bash
+pip install requests beautifulsoup4
+```
 
 ## Usage
 
-### GUI Application
-
-1. Run the application:
-   ```
-   python app.py
-   ```
-
-2. Upload your master resume (PDF or DOCX format).
-
-3. Enter the job posting URL or paste the job description text.
-
-4. Click "Generate Tailored Resume" to create your customized resume.
-
-5. Navigate to the "Skills Analysis" tab to see missing skills and certification recommendations.
-
-6. Save the generated PDF to your desired location.
-
-### Command Line Interface
-
-You can also use the command-line interface for skills analysis:
+1. Create a text file containing URLs, with one URL per line. For example, `job_urls.txt`:
 
 ```
-python skills_cli.py path/to/resume.pdf --job_text "Job description text"
+https://example.com/job/software-engineer
+https://example.com/job/data-scientist
+https://anothersite.com/careers/developer
 ```
 
-Or provide a job description file:
+2. Run the script with the path to your URL file:
 
+```bash
+python job_scraper.py job_urls.txt
 ```
-python skills_cli.py path/to/resume.pdf --job_file path/to/job_description.txt
-```
 
-This will analyze your resume against the job description, identify missing skills, and suggest relevant certifications.
+3. The script will create a `downloaded_jobs` directory and save the content from each URL as a text file.
 
-## How It Works
+## Output
 
-1. **Resume Parsing**: The application extracts structured information from your master resume, categorizing content into sections like education, skills, experience, etc.
+The script will:
+- Create a `downloaded_jobs` directory (if it doesn't exist)
+- Save each job description as a text file named after the domain and path
+- Print progress information and a summary when complete
 
-2. **Job Description Analysis**: Using natural language processing, the application identifies key requirements, preferred skills, and qualifications from the job posting.
+## Error Handling
 
-3. **Matching Algorithm**: A sophisticated algorithm matches your qualifications with job requirements, ranking your experiences and skills by relevance.
+The script includes error handling for:
+- File not found errors
+- Network request failures
+- HTTP errors (4xx/5xx responses)
+- General exceptions during processing
 
-4. **Content Selection**: The most relevant content is selected to create a concise 1-2 page resume.
+## License
 
-5. **PDF Generation**: A professionally formatted PDF resume is generated with your tailored content.
+MIT
