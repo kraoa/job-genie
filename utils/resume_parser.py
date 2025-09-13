@@ -4,7 +4,7 @@
 """
 Resume Parser Module
 
-This module extracts structured information from a resume in PDF or DOCX format.
+This module extracts structured information from a resume in PDF, DOCX, or Markdown format.
 It categorizes content into sections like education, skills, experience, etc.
 """
 
@@ -99,8 +99,10 @@ class ResumeParser:
             return self._extract_text_from_pdf(file_path)
         elif file_ext == '.docx':
             return self._extract_text_from_docx(file_path)
+        elif file_ext == '.md':
+            return self._extract_text_from_markdown(file_path)
         else:
-            raise ValueError(f"Unsupported file format: {file_ext}. Please provide a PDF or DOCX file.")
+            raise ValueError(f"Unsupported file format: {file_ext}. Please provide a PDF, DOCX, or MD file.")
     
     def _extract_text_from_pdf(self, pdf_path):
         """Extract text from a PDF file.
@@ -130,6 +132,32 @@ class ResumeParser:
         text = ""
         for paragraph in doc.paragraphs:
             text += paragraph.text + "\n"
+        return text
+        
+    def _extract_text_from_markdown(self, md_path):
+        """Extract text from a Markdown file.
+        
+        Args:
+            md_path (str): Path to the Markdown file
+            
+        Returns:
+            str: Extracted text
+        """
+        with open(md_path, 'r', encoding='utf-8') as file:
+            text = file.read()
+        
+        # Remove Markdown formatting (basic cleaning)
+        # Remove headers
+        text = re.sub(r'^#+\s+', '', text, flags=re.MULTILINE)
+        # Remove bold/italic
+        text = re.sub(r'\*\*|\*|__|\_', '', text)
+        # Remove links but keep the text
+        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+        # Remove code blocks
+        text = re.sub(r'```[\s\S]*?```', '', text)
+        # Remove inline code
+        text = re.sub(r'`([^`]+)`', r'\1', text)
+        
         return text
     
     def _split_into_sections(self):
@@ -295,19 +323,61 @@ class ResumeParser:
         skills_text = self.resume_sections['skills']
         skills = []
         
-        # Split by common delimiters
-        for delimiter in ['•', ',', '|', '\n', ';']:
-            if delimiter in skills_text:
-                skills = [skill.strip() for skill in skills_text.split(delimiter) if skill.strip()]
-                break
+        # For Markdown files, look for specific patterns in the skills section
+        programming_langs_match = re.search(r'Programming Languages:[\s\S]*?(?=\n\n|$)', skills_text)
+        frameworks_match = re.search(r'Frameworks & Technologies:[\s\S]*?(?=\n\n|$)', skills_text)
+        expertise_match = re.search(r'Areas of Expertise:[\s\S]*?(?=\n\n|$)', skills_text)
         
-        # If no delimiter was found, use the whole text
-        if not skills:
-            skills = [skills_text.strip()]
+        all_skills = []
+        
+        # Process programming languages
+        if programming_langs_match:
+            langs_text = programming_langs_match.group(0)
+            # Extract proficiency levels and languages
+            proficiency_patterns = [r'Proficient:\s*([^\n]+)', r'Intermediate:\s*([^\n]+)', r'Familiar:\s*([^\n]+)']
+            for pattern in proficiency_patterns:
+                match = re.search(pattern, langs_text)
+                if match:
+                    langs = match.group(1).strip()
+                    all_skills.extend([lang.strip() for lang in re.split(r',\s*', langs)])
+        
+        # Process frameworks and technologies
+        if frameworks_match:
+            frameworks_text = frameworks_match.group(0)
+            # Extract categories and technologies
+            category_pattern = r'(?:Frontend|Backend|Mobile|Cloud & DevOps|Databases|Tools):\s*([^\n]+)'  
+            for match in re.finditer(category_pattern, frameworks_text):
+                techs = match.group(1).strip()
+                all_skills.extend([tech.strip() for tech in re.split(r',\s*', techs)])
+        
+        # Process areas of expertise
+        if expertise_match:
+            expertise_text = expertise_match.group(0)
+            expertise_items = re.findall(r'- ([^\n]+)', expertise_text)
+            all_skills.extend([item.strip() for item in expertise_items])
+        
+        # If no specific patterns were found, fall back to the original method
+        if not all_skills:
+            # Split by common delimiters
+            for delimiter in ['•', ',', '|', '\n', ';']:
+                if delimiter in skills_text:
+                    skills = [skill.strip() for skill in skills_text.split(delimiter) if skill.strip()]
+                    break
+            
+            # If no delimiter was found, use the whole text
+            if not skills:
+                skills = [skills_text.strip()]
+            
+            all_skills = skills
         
         # Use NLP to extract skill entities
         extracted_skills = set()
-        for skill in skills:
+        for skill in all_skills:
+            # Remove any remaining markdown formatting
+            skill = re.sub(r'\*\*|\*|__|\\_|`|\[|\]|\(|\)|#', '', skill).strip()
+            if not skill:
+                continue
+                
             doc = nlp(skill)
             # Extract noun phrases as potential skills
             for chunk in doc.noun_chunks:
