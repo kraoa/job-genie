@@ -1,0 +1,56 @@
+SENIOR FULL-STACK DEVELOPER
+Tech Solutions Inc. | Remote (US-based) | Full-time
+
+ABOUT US
+Tech Solutions Inc. is a leading software development company specializing in cloud-native applications and AI-powered solutions. We're looking for a talented Senior Full-Stack Developer to join our growing team and help build the next generation of our flagship products.
+
+JOB DESCRIPTION
+We are seeking an experienced Full-Stack Developer with strong expertise in React, Node.js, and cloud technologies. The ideal candidate will have a passion for writing clean, efficient code and a track record of delivering high-quality web applications.
+
+RESPONSIBILITIES
+- Design, develop, and maintain scalable web applications using React, Node.js, and related technologies
+- Collaborate with cross-functional teams including designers, product managers, and other developers
+- Implement responsive design and ensure cross-browser compatibility
+- Optimize applications for maximum speed and scalability
+- Participate in code reviews and mentor junior developers
+- Design and implement RESTful APIs and microservices
+- Deploy and maintain applications on cloud platforms (AWS preferred)
+- Implement automated testing and CI/CD pipelines
+- Stay up-to-date with emerging trends and technologies
+
+REQUIREMENTS
+- Bachelor's degree in Computer Science, Engineering, or related field (or equivalent experience)
+- 5+ years of experience in full-stack development
+- Strong proficiency in JavaScript, including ES6+ features
+- Expert knowledge of React.js and its ecosystem (Redux, React Router, etc.)
+- Extensive experience with Node.js and Express.js
+- Familiarity with database technologies (MongoDB, PostgreSQL)
+- Experience with AWS or other cloud platforms
+- Knowledge of Docker, Kubernetes, and containerization concepts
+- Understanding of CI/CD pipelines and DevOps practices
+- Experience with version control systems (Git)
+- Excellent problem-solving skills and attention to detail
+- Strong communication and teamwork abilities
+
+PREFERRED QUALIFICATIONS
+- Experience with TypeScript
+- Knowledge of GraphQL
+- Familiarity with serverless architectures
+- Experience with machine learning or AI integration
+- Contributions to open-source projects
+- AWS certifications
+
+BENEFITS
+- Competitive salary and equity options
+- Comprehensive health, dental, and vision insurance
+- 401(k) matching
+- Flexible work hours and remote work policy
+- Professional development budget
+- Home office stipend
+- Unlimited PTO policy
+- Regular team events and retreats
+
+Tech Solutions Inc. is an equal opportunity employer. We celebrate diversity and are committed to creating an inclusive environment for all employees.
+
+TO APPLY
+Please submit your resume, cover letter, and links to relevant projects or your GitHub profile.
