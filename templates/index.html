@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobGenie - Resume Tailoring Tool</title>
+    <!-- Change this line -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <!-- And this line at the bottom -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Add jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Add marked library for Markdown conversion -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JobGenie</h1>
+            <p>Upload your master resume and job description to get a tailored resume</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="file-upload">
+                    <h2>Master Resume</h2>
+                    <p>Upload your comprehensive resume (5-10 pages)</p>
+                    <input type="file" id="resume-upload" accept=".txt" />
+                    <div class="file-preview" id="resume-preview"></div>
+                </div>
+
+                <div class="file-upload">
+                    <h2>Job Description</h2>
+                    <p>Upload the job description you're applying for</p>
+                    <input type="file" id="job-upload" accept=".txt" />
+                    <div class="file-preview" id="job-preview"></div>
+                </div>
+
+                <button id="generate-btn" disabled>Generate Tailored Resume</button>
+            </div>
+
+            <div class="result-section" id="result-section">
+                <h2>Your Tailored Resume</h2>
+                <div class="result-content" id="result-content">
+                    <p class="placeholder-text">Your tailored resume will appear here after processing.</p>
+                </div>
+                <div class="download-options">
+                    <button id="download-txt-btn" disabled>Download as Text</button>
+                    <button id="download-pdf-btn" disabled>Download as PDF</button>
+                    <button id="download-md-btn" disabled>Download as Markdown</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>JobGenie - AI-Powered Resume Tailoring Tool</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
