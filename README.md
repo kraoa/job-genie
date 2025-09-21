@@ -62,3 +62,7 @@ The script includes error handling for:
 ## License
 
 MIT
+
+## Note
+
+Issues in accepting text submissions and forced to require pdf submissions.
